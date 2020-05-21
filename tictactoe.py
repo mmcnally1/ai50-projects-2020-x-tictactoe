@@ -51,12 +51,6 @@ def actions(board):
     else:
         return "terminal"
 
-board = [[X, X, X],
-        [X, X, X],
-        [X, X, X]]
-print(actions(board))
-
-
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
