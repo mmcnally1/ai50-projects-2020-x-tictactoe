@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+from random import sample, choice
 
 X = "X"
 O = "O"
@@ -59,7 +60,7 @@ def result(board, action):
     if board[action[0]][action[1]] != None:
         raise Exception("Invalid action")
     
-    board1 =copy.deepcopy(board)
+    board1 = copy.deepcopy(board)
     player_turn = player(board)
 
     board1[action[0]][action[1]] = player_turn
@@ -103,7 +104,6 @@ def terminal(board):
     else:
         return False
 
-
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
@@ -115,9 +115,46 @@ def utility(board):
     else:
         return 0
 
-
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    if terminal(board) == True:
+        return None
+    if player(board) == X:
+        if board == initial_state():
+            a = (0,0)
+            b = (0,2)
+            c = (2,0)
+            d = (2,2)
+            first_move = choice([a,b,c,d])
+            return first_move
+        for action in actions(board):
+            if min_value(result(board, action)) == 1:
+                return action
+        for action in actions(board):
+            if min_value(result(board, action)) == 0:
+                return action
+    if player(board) == O:
+        for action in actions(board):
+            if max_value(result(board, action)) == -1:
+                return action
+        for action in actions(board):
+            if max_value(result(board, action)) == 0:
+                return action
+            
+def max_value(board):
+    if terminal(board) == True:
+        return utility(board)
+    v = -2
+    for action in actions(board):
+        v = max(v, min_value(result(board,action)))
+    return v
+
+def min_value(board):
+    if terminal(board) == True:
+        return utility(board)
+    v = 2
+    for action in actions(board):
+        v = min(v, max_value(result(board,action)))
+    return v
