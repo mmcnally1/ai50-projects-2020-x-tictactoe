@@ -1,1 +1,1 @@
-Python AI program to optimally play tic-tac-toe
+Python AI program using minimax to optimally play tic-tac-toe
